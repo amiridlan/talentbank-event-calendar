@@ -1,0 +1,471 @@
+{
+  "_meta": {
+    "source": "https://api.handbook.tips/talentbank-io/events",
+    "fetchedFrom": "https://www.talentbank.io/career-fairs/ (client-side fetch, captured via browser devtools)",
+    "fetchedOn": "2026-07-27",
+    "count": 31,
+    "note": "This is the raw, UNCLEANED response exactly as returned by the live API. It is kept here as a reference/import fixture for Sprint 1 seeding. Known defects to fix during cleaning are documented in PROJECT_BRIEF.md section 'Source data findings' — do not treat this file as the canonical schema."
+  },
+  "items": [
+    {
+      "iso": "2026-08-01",
+      "name": "Penang Career Fair @ Marriott ",
+      "type": "Public",
+      "region": "Penang",
+      "fields": ["All"],
+      "url": "https://www.penangcareerfair.com/"
+    },
+    {
+      "iso": "2026-08-05",
+      "name": "Universiti Tunku Abdul Rahman (Kampar) Career & Internship Fair",
+      "type": "Campus",
+      "region": "Perak",
+      "fields": [
+        "Social Science",
+        "Business and Finance",
+        "Information Technology",
+        "Engineering",
+        "Chinese Studies"
+      ],
+      "url": "https://www.utarcareerfair.com/"
+    },
+    {
+      "iso": "2026-08-22",
+      "name": "Engineering Career Fair",
+      "type": "Sector",
+      "region": "Klang Valley",
+      "fields": ["Engineering"],
+      "url": "https://www.engineeringcareerfair.com/"
+    },
+    {
+      "iso": "2026-09-12",
+      "name": "[New] Banking, Accounting, Finance & Insurance (BAFI) Career Fair ",
+      "type": "Sector",
+      "region": "Klang Valley",
+      "fields": ["Banking", "Accounting", "Finance", "Insurance"],
+      "url": "https://www.baficareerfair.com/"
+    },
+    {
+      "iso": "2026-09-22",
+      "name": "UPTM Academia Industry Collaboration 3.0 (AIC)",
+      "type": "Campus",
+      "region": "Kuala Lumpur",
+      "fields": [
+        "Business",
+        "Accounting",
+        "Multimedia",
+        "Education",
+        "Social Science",
+        "Humanities",
+        "Islamic General",
+        "Language Studies"
+      ],
+      "url": "https://www.uptmcareerfair.com/"
+    },
+    {
+      "iso": "2026-09-23",
+      "name": "UNITAR (Kelana Jaya) Career & Internship Fair",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "Accounting",
+        "Finance",
+        "Art & Design",
+        "Education",
+        "Information Technology",
+        "Psychology",
+        "Tourism & Hospitality"
+      ],
+      "url": ""
+    },
+    {
+      "iso": "2026-09-30",
+      "name": "Swinburne University Career Fair",
+      "type": "Campus",
+      "region": "Sarawak",
+      "fields": [
+        "Applied Innovation",
+        "Arts",
+        "Aviation",
+        "Build Environment & Architecture",
+        "Business",
+        "Design",
+        "Education",
+        "Engineering",
+        "Film and Television",
+        "Games and Animation",
+        "Health",
+        "Information Technology",
+        "Law",
+        "Media and Communication",
+        "Nursing",
+        "Psychology"
+      ],
+      "url": "https://www.swinburnecareerfair.com/"
+    },
+    {
+      "iso": "2026-10-03",
+      "name": "Tech Career Fair (9th Edition) @ Sunway Resort ",
+      "type": "Sector",
+      "region": "Klang Valley",
+      "fields": ["Information Technology"],
+      "url": "https://www.techcareerfair.com/october"
+    },
+    {
+      "iso": "2026-10-03",
+      "name": "Johor Premium Career Fair",
+      "type": "Public",
+      "region": "Johor",
+      "fields": ["All"],
+      "url": ""
+    },
+    {
+      "iso": "2026-10-04",
+      "name": "Johor Premium Career Fair",
+      "type": "Public",
+      "region": "Johor",
+      "fields": ["All"],
+      "url": ""
+    },
+    {
+      "iso": "2026-10-06",
+      "name": "Universiti Teknikal Malaysia Melaka (UTeM) Career & Internship Fair",
+      "type": "Campus",
+      "region": "Melacca ",
+      "fields": [
+        "Engineering",
+        "Information Technology",
+        "Technology Management and Technopreneurship"
+      ],
+      "url": "https://www.utemcareerfair.com/"
+    },
+    {
+      "iso": "2026-10-12",
+      "name": "UMPSA Career & Internship Fair ",
+      "type": "Campus",
+      "region": "Pahang",
+      "fields": [
+        "Engineering",
+        "Applied Science",
+        "Mathematical Science",
+        "Computer Management",
+        "Information Technology"
+      ],
+      "url": "https://www.umpsacareerfair.com/"
+    },
+    {
+      "iso": "2026-10-14",
+      "name": "USIM Career & Internship Fair",
+      "type": "Campus",
+      "region": "Negeri Sembilan",
+      "fields": [
+        "Humanities",
+        "Social Sciences",
+        "Orthodontics",
+        "Economics and Muamalat Administration",
+        "Built Environment",
+        "Engineering",
+        "Da'wah & Islamic Management",
+        "Human Resource",
+        "Communication",
+        "Couseling",
+        "Arabic Studies",
+        "Computing",
+        "Quranic and Sunnah Studies",
+        "Education",
+        "Science",
+        "Law",
+        "Islamic Science"
+      ],
+      "url": "https://www.usimcareerfair.com/"
+    },
+    {
+      "iso": "2026-10-20",
+      "name": "IGNITE UTHM",
+      "type": "Campus",
+      "region": "Johor ",
+      "fields": [
+        "Engineering",
+        "Technology Management",
+        "Technical and Vocational",
+        "Education",
+        "Computer Science",
+        "Information Technology",
+        "Applied Sciences",
+        "Animation"
+      ],
+      "url": "https://www.uthmcareerfair.com/"
+    },
+    {
+      "iso": "2026-10-21",
+      "name": "INTI Nilai Career & Internship Fair",
+      "type": "Campus",
+      "region": "Negeri Sembilan",
+      "fields": [
+        "Accounting",
+        "Finance",
+        "Business",
+        "Mass Communication",
+        "Engineering",
+        "Computing",
+        "Information Technology",
+        "Quantity Surveying",
+        "Biotechnology",
+        "Physiotherapy",
+        "Traditional Chinese Medicine"
+      ],
+      "url": "https://www.inticareerfair.com/"
+    },
+    {
+      "iso": "2026-10-21",
+      "name": "IGNITE UTHM",
+      "type": "Campus",
+      "region": "Johor ",
+      "fields": [
+        "Engineering",
+        "Technology Management",
+        "Technical and Vocational",
+        "Education",
+        "Computer Science",
+        "Information Technology",
+        "Applied Sciences",
+        "Animation"
+      ],
+      "url": "https://www.uthmcareerfair.com/"
+    },
+    {
+      "iso": "2026-10-23",
+      "name": "UMT Career & Internship Fair",
+      "type": "Campus",
+      "region": "Terrengganu",
+      "fields": [
+        "Earth & Marine Science",
+        "Physical Science",
+        "Environment",
+        "Engineering",
+        "Maritime Studies",
+        "Fisheries & Food Science",
+        "Finance",
+        "Business",
+        "Social Science",
+        "Information Technology",
+        "Data & Mathematics"
+      ],
+      "url": "https://www.umtcareerfair.com/"
+    },
+    {
+      "iso": "2026-10-24",
+      "name": "UMT Career & Internship Fair",
+      "type": "Campus",
+      "region": "Terrengganu",
+      "fields": [
+        "Earth & Marine Science",
+        "Physical Science",
+        "Environment",
+        "Engineering",
+        "Maritime Studies",
+        "Fisheries & Food Science",
+        "Finance",
+        "Business",
+        "Social Science",
+        "Information Technology",
+        "Data & Mathematics"
+      ],
+      "url": "https://www.umtcareerfair.com/"
+    },
+    {
+      "iso": "2026-10-27",
+      "name": "IIUM Career & Internship Fair ",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "Education",
+        "Architecture",
+        "Law",
+        "Islamic Reveal Knowledge & Human Science",
+        "Engineering",
+        "Economics",
+        "Information Technology",
+        "Health Sciences",
+        "Pharmacy",
+        "Dentistry",
+        "Nursing",
+        "Medicine",
+        "Tourism"
+      ],
+      "url": "https://www.iiumcareerfair.com/"
+    },
+    {
+      "iso": "2026-10-27",
+      "name": "Sunway University Get Hired (Day 1)",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "American Education",
+        "Arts & Social Sciences",
+        "Hospitality & Tourism Management",
+        "Medical & Life Sciences",
+        "Engineering",
+        "Information Technology",
+        "Mathematical Sciences",
+        "Business"
+      ],
+      "url": "https://www.sunwayunigethired.com/"
+    },
+    {
+      "iso": "2026-10-28",
+      "name": "Sunway University Get Hired (Day 2)",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "American Education",
+        "Arts & Social Sciences",
+        "Hospitality & Tourism Management",
+        "Medical & Life Sciences",
+        "Engineering",
+        "Information Technology",
+        "Mathematical Sciences",
+        "Business"
+      ],
+      "url": "https://www.sunwayunigethired.com/"
+    },
+    {
+      "iso": "2026-10-29",
+      "name": "UPNM Career & Internship Fair ",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "Medicine & Defences Health",
+        "Medicine",
+        "Engineering",
+        "Science & Technology",
+        "Studies & Management",
+        "Business Adminstration",
+        "Strategy & Business"
+      ],
+      "url": "http://upnmcareerfair.com/"
+    },
+    {
+      "iso": "2026-11-11",
+      "name": "Universiti Putra Malaysia (UPM) Talent Fest",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "Agriculture",
+        "Computer Science",
+        "Information Technology",
+        "Architecture",
+        "Educational Studies",
+        "Engineering",
+        "Forestry & Environment",
+        "Food Science",
+        "Medicine & Health Science",
+        "Modern Language & Communication",
+        "Science",
+        "Biotechnology",
+        "Business & Economics",
+        "Human Ecology",
+        "Humanities"
+      ],
+      "url": "https://www.upmcareerfair.com/"
+    },
+    {
+      "iso": "2026-11-12",
+      "name": "Universiti Putra Malaysia (UPM) Talent Fest",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "Agriculture",
+        "Computer Science",
+        "Information Technology",
+        "Architecture",
+        "Educational Studies",
+        "Engineering",
+        "Forestry & Environment",
+        "Food Science",
+        "Medicine & Health Science",
+        "Modern Language & Communication",
+        "Science",
+        "Biotechnology",
+        "Business & Economics",
+        "Human Ecology",
+        "Humanities"
+      ],
+      "url": "https://www.upmcareerfair.com/"
+    },
+    {
+      "iso": "2026-11-13",
+      "name": "9th Graduates' Choice Award Gala",
+      "type": "Awards",
+      "region": "Selangor",
+      "fields": ["All"],
+      "url": "https://www.graduateschoiceaward.com/"
+    },
+    {
+      "iso": "2026-11-18",
+      "name": "Taylor's University Career Employment Day",
+      "type": "Campus",
+      "region": "Selangor",
+      "fields": [
+        "Hospitality",
+        "Tourism & Events",
+        "Culinary",
+        "Media & Communication",
+        "Liberal Arts & Sciences",
+        "Education",
+        "Management & Marketing",
+        "Accounting & Finance",
+        "Law",
+        "Architecture",
+        "Design",
+        "Engineering",
+        "Computer Science",
+        "Biosciences",
+        "Pharmacy",
+        "Interior Design",
+        "Fashion"
+      ],
+      "url": "https://www.taylorscareerfair.com/"
+    },
+    {
+      "iso": "2026-11-21",
+      "name": "Penang Tech, Engineering & Semicon Career Fair",
+      "type": "Sector",
+      "region": "Penang",
+      "fields": ["Information Technology", "Engineering", "Semiconductor"],
+      "url": "https://www.penangcareerfair.com/tes"
+    },
+    {
+      "iso": "2027-04-03",
+      "name": "Talentbank Career Fair",
+      "type": "Public",
+      "region": "Selangor",
+      "fields": ["All"],
+      "url": "https://www.careerfair.co"
+    },
+    {
+      "iso": "2027-04-04",
+      "name": "Talentbank Career Fair",
+      "type": "Public",
+      "region": "Selangor",
+      "fields": ["All"],
+      "url": "https://www.careerfair.co"
+    },
+    {
+      "iso": "2027-06-26",
+      "name": "National Career Fair",
+      "type": "Public",
+      "region": "Kuala Lumpur",
+      "fields": ["All"],
+      "url": "https://www.nationalcareerfair.io/"
+    },
+    {
+      "iso": "2027-06-27",
+      "name": "National Career Fair ABC",
+      "type": "Public",
+      "region": "Kuala Lumpur",
+      "fields": ["All"],
+      "url": "https://www.nationalcareerfair.io/"
+    }
+  ]
+}
