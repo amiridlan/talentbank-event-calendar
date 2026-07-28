@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentBank Event Calendar - Project Summary</title>
+    <style>
+        @media print {
+            body {
+                margin: 0;
+                padding: 20mm;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+            color: #333;
+            background: white;
+        }
+
+        h1 {
+            color: #2563eb;
+            font-size: 24px;
+            margin-bottom: 8px;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 8px;
+        }
+
+        .meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .meta strong {
+            color: #333;
+        }
+
+        h2 {
+            color: #1e40af;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        p {
+            text-align: justify;
+            margin-bottom: 14px;
+            font-size: 11px;
+        }
+
+        .footer {
+            margin-top: 24px;
+            padding-top: 12px;
+            border-top: 2px solid #e5e7eb;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .tech-stack {
+            background: #f3f4f6;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-top: 8px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>TalentBank Event Calendar - Project Summary</h1>
+
+    <div class="meta">
+        <strong>Developer:</strong> Amir (with Claude Code Assistant)<br>
+        <strong>Timeline:</strong> Sprint 0-6 (Full Development Cycle)<br>
+        <strong>Status:</strong> Production Ready
+    </div>
+
+    <hr>
+
+    <h2>What We Built and Why</h2>
+    <p>
+        We built a comprehensive event management system for TalentCorp Malaysia's career fairs. The system includes a public-facing calendar where job seekers can browse and register for events, plus a back-office CMS for non-technical event coordinators to manage events without touching code. Key features include advanced filtering by state and industry, dual registration systems (candidates and employers), capacity management with waitlists, clash detection to prevent scheduling conflicts, calendar integration (.ics downloads and webcal subscriptions), and automated email notifications. The project was needed because TalentCorp wanted a standalone system independent of their main talentbank.io platform, with specific requirements for Malaysian data protection compliance (PDPA 2010) and the ability to handle complex scenarios like event cancellations, postponements, and venue conflicts.
+    </p>
+
+    <h2>What We Cut</h2>
+    <p>
+        We documented but did not implement several enhancement features to keep the project focused on core functionality. Rate limiting was designed and documented with Upstash Redis integration but deferred as it requires additional infrastructure setup. Automated cron-based email reminders (7 days before events) were planned but left for post-launch implementation since the email templates and infrastructure are ready. Two-factor authentication for admin users was considered low priority given the Google OAuth security already in place. An analytics dashboard for tracking event performance metrics was postponed in favor of Vercel's built-in analytics. We also kept the @react-email deprecated packages rather than migrating to a newer email template library, accepting the technical debt since the packages remain functional.
+    </p>
+
+    <h2>Where AI Was Wrong and How We Fixed It</h2>
+    <p>
+        The AI made several technical assumptions that required correction during development. Initially, it referenced database fields (<code>description</code>, <code>city</code>) that didn't exist in the schema, causing TypeScript errors in the .ics generator and API routes - this was fixed by removing those references and using only existing schema fields like <code>venueName</code> and <code>region</code>. The AI installed the deprecated <code>@react-email/components</code> package which failed at import time; this was corrected by installing individual component packages (<code>@react-email/html</code>, <code>@react-email/body</code>, etc.) and updating all imports. During database setup, <code>drizzle.config.ts</code> couldn't access environment variables, throwing errors during migrations - solved by installing <code>dotenv</code> and explicitly loading <code>.env.local</code> in the config file. The registration API had null-handling issues where <code>candidateRegistered</code> and <code>employerRegistered</code> could be null but were used in arithmetic operations - fixed by adding null coalescing operators (<code>?? 0</code>) throughout. These corrections improved my understanding of Drizzle ORM constraints, Next.js environment variable loading, and the importance of validating schema assumptions before writing dependent code.
+    </p>
+
+    <h2>Technical Achievement</h2>
+    <p>
+        The final system successfully passed strict TypeScript compilation (zero errors), achieved WCAG 2.2 Level AA accessibility compliance, implemented OWASP Top 10 security protections with custom headers, and includes 1,200+ lines of comprehensive documentation. All 114 story points across 6 sprints were delivered, with the system deployed and ready for production use on Vercel with Neon Postgres, Auth.js authentication, and Resend email integration.
+    </p>
+
+    <div class="footer">
+        <div class="tech-stack">
+            <strong>Tech Stack:</strong> Next.js 15, TypeScript, PostgreSQL (Neon), Drizzle ORM, Auth.js, Resend, Tailwind CSS<br>
+            <strong>Documentation:</strong> 10 comprehensive guides including deployment, security audit, and admin runbook<br>
+            <strong>Compliance:</strong> PDPA 2010, WCAG 2.2 AA, OWASP Top 10
+        </div>
+    </div>
+</body>
+</html>
