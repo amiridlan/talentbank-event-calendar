@@ -55,6 +55,8 @@ export const eventSchema = z.object({
   venueId: z.string().nullable(),
   externalUrl: z.string().url().nullable(),
   status: eventStatusSchema,
+  registrationOpenDate: z.string().nullable(),
+  registrationCloseDate: z.string().nullable(),
   candidateCapacity: z.number().int().positive().nullable(),
   candidateRegistered: z.number().int().nonnegative(),
   employerCapacity: z.number().int().positive().nullable(),
