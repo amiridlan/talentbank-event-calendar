@@ -85,6 +85,9 @@ export async function GET(request: NextRequest) {
           // Convert dates to ISO strings for JSON serialization
           startDate: event.startDate,
           endDate: event.endDate,
+          postponedFromDate: event.postponedFromDate || null,
+          registrationOpenDate: event.registrationOpenDate || null,
+          registrationCloseDate: event.registrationCloseDate || null,
           startTime: event.startTime || null,
           endTime: event.endTime || null,
           createdAt: event.createdAt.toISOString(),

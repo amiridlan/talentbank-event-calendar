@@ -90,6 +90,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session
     },
+    async redirect({ url, baseUrl }) {
+      // After sign in, always redirect to /admin
+      // This overrides any callbackUrl parameter
+      if (url.startsWith(baseUrl)) {
+        return `${baseUrl}/admin`
+      }
+      return baseUrl + '/admin'
+    },
   },
   pages: {
     signIn: '/auth/signin',
