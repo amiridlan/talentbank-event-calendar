@@ -23,12 +23,14 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 - 📚 **Past Events Archive** - Browse historical events with statistics
 
 ### Admin Features
-- 🔐 **Google SSO** - Secure authentication via Google Workspace
+- 🔐 **Dual Authentication** - Google SSO + Credentials-based login
 - 👥 **Role-Based Access** - Admin, Editor, and Viewer roles
 - ⚠️ **Clash Detection** - Automatic conflict detection (hard & soft clashes)
 - 📊 **Capacity Management** - Track registrations and waitlists
 - 📧 **Email Notifications** - Automated confirmation and reminder emails
 - 🗂️ **Event Management** - Create, edit, cancel, and postpone events
+- 📅 **Registration Period Control** - Set registration open/close dates
+- 🔗 **External Registration Links** - Support for third-party registration systems
 - 📈 **Registration Dashboard** - View and export registration data
 
 ### Technical Features
@@ -75,6 +77,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 # Auth (Required for admin access)
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=<generate-with-openssl-rand-base64-32>
+AUTH_SECRET=<generate-with-openssl-rand-base64-32>
 GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=your-client-secret
 
@@ -269,6 +272,7 @@ DATABASE_URL=postgresql://...
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=<32-char-random-string>
+AUTH_SECRET=<32-char-random-string>
 GOOGLE_CLIENT_ID=...
 GOOGLE_CLIENT_SECRET=...
 
@@ -355,6 +359,13 @@ Built with modern web technologies and best practices:
 
 ---
 
-**Version:** 1.0.0 (Sprint 6 Complete)
-**Last Updated:** 2026-07-28
+**Version:** 1.1.0 (Post-Sprint 6 Updates)
+**Last Updated:** 2026-07-29
 **Status:** Production Ready ✅
+
+### Recent Updates (v1.1.0)
+- ✅ Added registration period control (open/close dates)
+- ✅ Added external registration link support
+- ✅ Added credentials-based authentication
+- ✅ Fixed TypeScript build errors for production deployment
+- ✅ Enhanced form validation and user experience

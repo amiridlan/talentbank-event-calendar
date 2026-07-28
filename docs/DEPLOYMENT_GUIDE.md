@@ -143,6 +143,7 @@ DATABASE_URL=postgresql://user:password@host/database?sslmode=require
 # Auth.js (NextAuth)
 NEXTAUTH_URL=https://your-production-domain.com
 NEXTAUTH_SECRET=your-generated-secret-here
+AUTH_SECRET=your-generated-secret-here
 
 # Google OAuth (from Google Cloud Console)
 GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
@@ -152,10 +153,13 @@ GOOGLE_CLIENT_SECRET=your-client-secret
 RESEND_API_KEY=re_your_api_key_here
 ```
 
-**Generate NEXTAUTH_SECRET:**
+**Generate NEXTAUTH_SECRET and AUTH_SECRET:**
 ```bash
-openssl rand -base64 32
+# Generate two different secrets
+openssl rand -base64 32  # Use for NEXTAUTH_SECRET
+openssl rand -base64 32  # Use for AUTH_SECRET
 ```
+**Note:** Both secrets are required for Auth.js v5. Use different values for each.
 
 #### 4.3 Deploy
 
@@ -356,6 +360,7 @@ npm install package-name@latest
 Before going live:
 
 - [ ] NEXTAUTH_SECRET is strong (32+ characters)
+- [ ] AUTH_SECRET is strong (32+ characters) and different from NEXTAUTH_SECRET
 - [ ] All environment variables are set in Vercel (not in code)
 - [ ] Google OAuth restricted to Workspace domain
 - [ ] Database has strong password
