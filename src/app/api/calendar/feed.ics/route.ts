@@ -100,6 +100,8 @@ export async function GET(request: NextRequest) {
           venueId: event.venueId,
           externalUrl: event.externalUrl,
           status: event.status,
+          registrationOpenDate: event.registrationOpenDate,
+          registrationCloseDate: event.registrationCloseDate,
           postponedFromDate: event.postponedFromDate,
           movedFromEventId: event.movedFromEventId,
           candidateCapacity: event.candidateCapacity,

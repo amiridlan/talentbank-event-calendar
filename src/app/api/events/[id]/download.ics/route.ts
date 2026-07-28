@@ -56,6 +56,8 @@ export async function GET(
       venueId: event.venueId,
       externalUrl: event.externalUrl,
       status: event.status,
+      registrationOpenDate: event.registrationOpenDate,
+      registrationCloseDate: event.registrationCloseDate,
       postponedFromDate: event.postponedFromDate,
       movedFromEventId: event.movedFromEventId,
       candidateCapacity: event.candidateCapacity,
