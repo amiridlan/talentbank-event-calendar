@@ -180,7 +180,7 @@ export default function EditEventForm({ event }: { event: Event }) {
                   id="venueName"
                   name="venueName"
                   required
-                  defaultValue={event.venueName}
+                  defaultValue={event.venueName ?? ''}
                   className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2.5 text-base text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>

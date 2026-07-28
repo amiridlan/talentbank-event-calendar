@@ -72,9 +72,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Fetch role from database for OAuth users, use existing role for Credentials
         if (user.role) {
           token.role = user.role
-        } else {
+        } else if (user.id) {
+          const userId = user.id
           const dbUser = await db.query.users.findFirst({
-            where: (users, { eq }) => eq(users.id, user.id),
+            where: (users, { eq }) => eq(users.id, userId),
           })
           token.role = dbUser?.role || 'viewer'
         }
@@ -109,7 +110,7 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
+declare module '@auth/core/jwt' {
   interface JWT {
     id?: string
     role?: 'admin' | 'editor' | 'viewer'
