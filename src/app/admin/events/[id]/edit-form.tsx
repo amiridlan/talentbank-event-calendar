@@ -53,11 +53,19 @@ export default function EditEventForm({ event }: { event: Event }) {
   }
 
   // Format datetime for input (HTML datetime-local requires this format)
-  const formatDateTime = (date: Date | string | null) => {
+  const formatDateTime = (date: Date | string | null, time: string | null = null) => {
     if (!date) return ''
-    const d = new Date(date)
-    if (isNaN(d.getTime())) return ''
-    return d.toISOString().slice(0, 16)
+    const dateStr = typeof date === 'string' ? date : date.toISOString().split('T')[0]
+
+    // If time is provided, combine date and time
+    if (time) {
+      // Remove seconds from time if present (HH:MM:SS -> HH:MM)
+      const timeStr = time.substring(0, 5)
+      return `${dateStr}T${timeStr}`
+    }
+
+    // If no time, default to 09:00
+    return `${dateStr}T09:00`
   }
 
   return (
@@ -145,7 +153,7 @@ export default function EditEventForm({ event }: { event: Event }) {
                   id="startDate"
                   name="startDate"
                   required
-                  defaultValue={formatDateTime(event.startDate)}
+                  defaultValue={formatDateTime(event.startDate, event.startTime)}
                   className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2.5 text-base text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -159,7 +167,7 @@ export default function EditEventForm({ event }: { event: Event }) {
                   id="endDate"
                   name="endDate"
                   required
-                  defaultValue={formatDateTime(event.endDate)}
+                  defaultValue={formatDateTime(event.endDate, event.endTime)}
                   className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2.5 text-base text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
