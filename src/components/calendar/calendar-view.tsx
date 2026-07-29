@@ -1,35 +1,38 @@
 import { format, parseISO } from 'date-fns'
 import { EventCard } from './event-card'
 import type { EventResponse } from '@/lib/validations/event'
+import { eventFiltersSchema } from '@/lib/validations/event'
 import { db, events, fields, eventFields } from '@/db'
 import { eq, and, like, sql, desc } from 'drizzle-orm'
 
 async function fetchEvents(params: Record<string, string | string[] | undefined>) {
+  // Parse and validate filters
+  const filters = eventFiltersSchema.parse(params)
+
   // Build where conditions
   const conditions = []
 
-  if (params.year) {
-    const year = params.year as string
-    const yearStart = `${year}-01-01`
-    const yearEnd = `${year}-12-31`
+  if (filters.year) {
+    const yearStart = `${filters.year}-01-01`
+    const yearEnd = `${filters.year}-12-31`
     conditions.push(
       sql`${events.startDate} <= ${yearEnd} AND ${events.endDate} >= ${yearStart}`
     )
   }
 
-  if (params.region) {
-    conditions.push(eq(events.region, params.region as string))
+  if (filters.region) {
+    conditions.push(eq(events.region, filters.region))
   }
 
-  if (params.eventType) {
-    conditions.push(eq(events.eventType, params.eventType as string))
+  if (filters.eventType) {
+    conditions.push(eq(events.eventType, filters.eventType))
   }
 
   // Only show scheduled events (not drafts or archived)
   conditions.push(eq(events.status, 'scheduled'))
 
-  if (params.search) {
-    conditions.push(like(events.name, `%${params.search}%`))
+  if (filters.search) {
+    conditions.push(like(events.name, `%${filters.search}%`))
   }
 
   // Query events

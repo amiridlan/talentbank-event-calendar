@@ -2,37 +2,40 @@ import { format, parseISO } from 'date-fns'
 import { Calendar } from 'lucide-react'
 import { EventCard } from './event-card'
 import type { EventResponse } from '@/lib/validations/event'
+import { eventFiltersSchema } from '@/lib/validations/event'
 import { db, events, fields, eventFields } from '@/db'
-import { eq, and, like, desc } from 'drizzle-orm'
+import { eq, and, like, sql, desc } from 'drizzle-orm'
 
 async function getArchivedEvents(searchParams: {
   [key: string]: string | string[] | undefined
 }) {
+  // Parse and validate filters
+  const filters = eventFiltersSchema.parse(searchParams)
+
   // Build where conditions
   const conditions = []
 
-  if (searchParams.year) {
-    const year = searchParams.year as string
-    const yearStart = `${year}-01-01`
-    const yearEnd = `${year}-12-31`
+  if (filters.year) {
+    const yearStart = `${filters.year}-01-01`
+    const yearEnd = `${filters.year}-12-31`
     conditions.push(
-      eq(events.startDate, yearStart) // You may want to adjust this based on your needs
+      sql`${events.startDate} <= ${yearEnd} AND ${events.endDate} >= ${yearStart}`
     )
   }
 
-  if (searchParams.region) {
-    conditions.push(eq(events.region, searchParams.region as string))
+  if (filters.region) {
+    conditions.push(eq(events.region, filters.region))
   }
 
-  if (searchParams.eventType) {
-    conditions.push(eq(events.eventType, searchParams.eventType as string))
+  if (filters.eventType) {
+    conditions.push(eq(events.eventType, filters.eventType))
   }
 
   // Filter for completed events only
   conditions.push(eq(events.status, 'completed'))
 
-  if (searchParams.search) {
-    conditions.push(like(events.name, `%${searchParams.search}%`))
+  if (filters.search) {
+    conditions.push(like(events.name, `%${filters.search}%`))
   }
 
   // Query events
