@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Trash2, AlertTriangle } from 'lucide-react'
+import { Trash2, AlertTriangle, X } from 'lucide-react'
 
 export default function DeleteEventButton({
   eventId,
@@ -12,7 +12,7 @@ export default function DeleteEventButton({
   eventName: string
 }) {
   const router = useRouter()
-  const [showConfirm, setShowConfirm] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [error, setError] = useState('')
 
@@ -30,6 +30,7 @@ export default function DeleteEventButton({
         throw new Error(data.message || 'Failed to delete event')
       }
 
+      setShowModal(false)
       router.refresh()
       router.push('/admin/events')
     } catch (err) {
@@ -38,47 +39,86 @@ export default function DeleteEventButton({
     }
   }
 
-  if (showConfirm) {
-    return (
-      <div className="inline-flex flex-col gap-2">
-        <div className="flex items-center gap-2 rounded-md bg-red-50 px-3 py-2 text-sm">
-          <AlertTriangle className="h-4 w-4 text-red-600" />
-          <span className="text-red-900 font-medium">Delete "{eventName}"?</span>
-        </div>
-        {error && (
-          <div className="text-sm text-red-600">{error}</div>
-        )}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleDelete}
-            disabled={isDeleting}
-            className="rounded-md bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
-          >
-            {isDeleting ? 'Deleting...' : 'Confirm Delete'}
-          </button>
-          <button
-            onClick={() => {
-              setShowConfirm(false)
-              setError('')
-            }}
-            disabled={isDeleting}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    )
+  const handleClose = () => {
+    if (!isDeleting) {
+      setShowModal(false)
+      setError('')
+    }
   }
 
   return (
-    <button
-      onClick={() => setShowConfirm(true)}
-      className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
-      aria-label={`Delete ${eventName}`}
-    >
-      <Trash2 className="h-4 w-4" />
-      <span>Delete</span>
-    </button>
+    <>
+      <button
+        onClick={() => setShowModal(true)}
+        className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+        aria-label={`Delete ${eventName}`}
+      >
+        <Trash2 className="h-4 w-4" />
+        <span>Delete</span>
+      </button>
+
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={handleClose}
+        >
+          <div
+            className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100">
+                  <AlertTriangle className="h-5 w-5 text-red-600" />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-900">Delete Event</h2>
+              </div>
+              <button
+                onClick={handleClose}
+                disabled={isDeleting}
+                className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="px-6 py-4">
+              <p className="text-sm text-gray-700">
+                Are you sure you want to delete <span className="font-semibold">"{eventName}"</span>?
+              </p>
+              <p className="mt-2 text-sm text-gray-600">
+                This action cannot be undone. All event data will be permanently deleted.
+              </p>
+              {error && (
+                <div className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-800">
+                  {error}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-end gap-3 px-6 py-4 bg-gray-50 border-t border-gray-200">
+              <button
+                onClick={handleClose}
+                disabled={isDeleting}
+                className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {isDeleting ? 'Deleting...' : 'Delete Event'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
