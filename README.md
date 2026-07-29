@@ -134,7 +134,6 @@ Visit:
 
 ### Features
 
-- **Calendar:** ics (RFC 5545 compliant)
 - **Validation:** Zod schemas
 - **Date Handling:** date-fns
 
