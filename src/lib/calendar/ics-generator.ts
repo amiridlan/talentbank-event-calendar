@@ -74,7 +74,7 @@ export function generateEventICS(event: EventResponse): string {
     title: event.name,
     description: descriptionParts.join('\n'),
     location,
-    url: event.externalUrl || (process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/events/${event.slug}` : undefined),
+    url: event.externalUrl || undefined,
     status: event.status === 'cancelled' ? 'CANCELLED' : 'CONFIRMED',
     busyStatus: 'BUSY',
     organizer: {
@@ -107,50 +107,3 @@ export function generateEventICS(event: EventResponse): string {
   return value || ''
 }
 
-/**
- * Generates an .ics file for multiple events (for webcal feeds)
- */
-export function generateMultipleEventsICS(
-  events: EventResponse[],
-  calendarName = 'TalentCorp Career Fairs'
-): string {
-  const eventAttributes: EventAttributes[] = events.map((event) => {
-    const startDate = new Date(event.startDate)
-    const endDate = new Date(event.endDate)
-
-    const start = toDateArray(startDate)
-    const end = toDateArray(endDate)
-
-    const location = [
-      event.venueName || 'Venue TBA',
-      event.venueAddress,
-      event.region.replace('_', ' '),
-    ]
-      .filter(Boolean)
-      .join(', ')
-
-    return {
-      start,
-      end,
-      title: event.name,
-      description: `${event.eventType.charAt(0).toUpperCase() + event.eventType.slice(1)} Career Fair`,
-      location,
-      url: process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/events/${event.slug}` : undefined,
-      status: event.status === 'cancelled' ? 'CANCELLED' : 'CONFIRMED',
-      busyStatus: 'BUSY',
-      organizer: {
-        name: 'TalentCorp Malaysia',
-        email: 'events@talentcorp.com.my',
-      },
-      categories: [event.eventType, ...event.fields.map((f) => f.name)],
-    }
-  })
-
-  const { error, value } = createEvents(eventAttributes)
-
-  if (error) {
-    throw new Error(`Failed to generate calendar: ${error.message}`)
-  }
-
-  return value || ''
-}

@@ -1,28 +1,88 @@
 import { format, parseISO } from 'date-fns'
 import { EventCard } from './event-card'
 import type { EventResponse } from '@/lib/validations/event'
+import { db, events, fields, eventFields } from '@/db'
+import { eq, and, like, sql, desc } from 'drizzle-orm'
 
 async function fetchEvents(params: Record<string, string | string[] | undefined>) {
-  const searchParams = new URLSearchParams()
+  // Build where conditions
+  const conditions = []
 
-  // Add filters to search params
-  if (params.year) searchParams.set('year', params.year as string)
-  if (params.region) searchParams.set('region', params.region as string)
-  if (params.eventType) searchParams.set('eventType', params.eventType as string)
-  if (params.search) searchParams.set('search', params.search as string)
-
-  const url = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/events?${searchParams.toString()}`
-
-  const res = await fetch(url, {
-    cache: 'no-store', // Always get fresh data
-  })
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch events')
+  if (params.year) {
+    const year = params.year as string
+    const yearStart = `${year}-01-01`
+    const yearEnd = `${year}-12-31`
+    conditions.push(
+      sql`${events.startDate} <= ${yearEnd} AND ${events.endDate} >= ${yearStart}`
+    )
   }
 
-  const data = await res.json()
-  return data.events as EventResponse[]
+  if (params.region) {
+    conditions.push(eq(events.region, params.region as string))
+  }
+
+  if (params.eventType) {
+    conditions.push(eq(events.eventType, params.eventType as string))
+  }
+
+  // Only show scheduled events (not drafts or archived)
+  conditions.push(eq(events.status, 'scheduled'))
+
+  if (params.search) {
+    conditions.push(like(events.name, `%${params.search}%`))
+  }
+
+  // Query events
+  const eventsData = await db
+    .select()
+    .from(events)
+    .where(conditions.length > 0 ? and(...conditions) : undefined)
+    .orderBy(desc(events.startDate))
+
+  // Get related fields for each event
+  const eventsWithFields = await Promise.all(
+    eventsData.map(async (event) => {
+      const eventFieldsData = await db
+        .select({
+          id: fields.id,
+          name: fields.name,
+          slug: fields.slug,
+          category: fields.category,
+        })
+        .from(eventFields)
+        .innerJoin(fields, eq(eventFields.fieldId, fields.id))
+        .where(eq(eventFields.eventId, event.id))
+
+      // Calculate multi-day info
+      const startDate = new Date(event.startDate)
+      const endDate = new Date(event.endDate)
+      const durationDays =
+        Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1
+      const isMultiDay = durationDays > 1
+
+      return {
+        ...event,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        postponedFromDate: event.postponedFromDate || null,
+        registrationOpenDate: event.registrationOpenDate || null,
+        registrationCloseDate: event.registrationCloseDate || null,
+        startTime: event.startTime || null,
+        endTime: event.endTime || null,
+        createdAt: event.createdAt.toISOString(),
+        updatedAt: event.updatedAt.toISOString(),
+        publishedAt: event.publishedAt?.toISOString() || null,
+        archivedAt: event.archivedAt?.toISOString() || null,
+        cancelledAt: event.cancelledAt?.toISOString() || null,
+        externalUrl: event.externalUrl || null,
+        fields: eventFieldsData,
+        isMultiDay,
+        durationDays,
+      } as EventResponse
+    })
+  )
+
+  return eventsWithFields
 }
 
 // Group events by month

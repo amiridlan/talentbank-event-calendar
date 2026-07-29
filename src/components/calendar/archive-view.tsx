@@ -2,32 +2,90 @@ import { format, parseISO } from 'date-fns'
 import { Calendar } from 'lucide-react'
 import { EventCard } from './event-card'
 import type { EventResponse } from '@/lib/validations/event'
+import { db, events, fields, eventFields } from '@/db'
+import { eq, and, like, desc } from 'drizzle-orm'
 
 async function getArchivedEvents(searchParams: {
   [key: string]: string | string[] | undefined
 }) {
-  const params = new URLSearchParams()
+  // Build where conditions
+  const conditions = []
 
-  // Add filter parameters
-  if (searchParams.year) params.set('year', searchParams.year as string)
-  if (searchParams.region) params.set('region', searchParams.region as string)
-  if (searchParams.eventType)
-    params.set('eventType', searchParams.eventType as string)
-  if (searchParams.search) params.set('search', searchParams.search as string)
-
-  // Filter for past events only
-  params.set('status', 'completed')
-
-  const url = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/events?${params.toString()}`
-
-  const res = await fetch(url, { cache: 'no-store' })
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch archived events')
+  if (searchParams.year) {
+    const year = searchParams.year as string
+    const yearStart = `${year}-01-01`
+    const yearEnd = `${year}-12-31`
+    conditions.push(
+      eq(events.startDate, yearStart) // You may want to adjust this based on your needs
+    )
   }
 
-  const data = await res.json()
-  return data.events as EventResponse[]
+  if (searchParams.region) {
+    conditions.push(eq(events.region, searchParams.region as string))
+  }
+
+  if (searchParams.eventType) {
+    conditions.push(eq(events.eventType, searchParams.eventType as string))
+  }
+
+  // Filter for completed events only
+  conditions.push(eq(events.status, 'completed'))
+
+  if (searchParams.search) {
+    conditions.push(like(events.name, `%${searchParams.search}%`))
+  }
+
+  // Query events
+  const eventsData = await db
+    .select()
+    .from(events)
+    .where(conditions.length > 0 ? and(...conditions) : undefined)
+    .orderBy(desc(events.startDate))
+
+  // Get related fields for each event
+  const eventsWithFields = await Promise.all(
+    eventsData.map(async (event) => {
+      const eventFieldsData = await db
+        .select({
+          id: fields.id,
+          name: fields.name,
+          slug: fields.slug,
+          category: fields.category,
+        })
+        .from(eventFields)
+        .innerJoin(fields, eq(eventFields.fieldId, fields.id))
+        .where(eq(eventFields.eventId, event.id))
+
+      // Calculate multi-day info
+      const startDate = new Date(event.startDate)
+      const endDate = new Date(event.endDate)
+      const durationDays =
+        Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1
+      const isMultiDay = durationDays > 1
+
+      return {
+        ...event,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        postponedFromDate: event.postponedFromDate || null,
+        registrationOpenDate: event.registrationOpenDate || null,
+        registrationCloseDate: event.registrationCloseDate || null,
+        startTime: event.startTime || null,
+        endTime: event.endTime || null,
+        createdAt: event.createdAt.toISOString(),
+        updatedAt: event.updatedAt.toISOString(),
+        publishedAt: event.publishedAt?.toISOString() || null,
+        archivedAt: event.archivedAt?.toISOString() || null,
+        cancelledAt: event.cancelledAt?.toISOString() || null,
+        externalUrl: event.externalUrl || null,
+        fields: eventFieldsData,
+        isMultiDay,
+        durationDays,
+      } as EventResponse
+    })
+  )
+
+  return eventsWithFields
 }
 
 export async function ArchiveView({

@@ -13,18 +13,64 @@ import {
 } from 'lucide-react'
 import type { EventResponse } from '@/lib/validations/event'
 import { SkipLink } from '@/components/ui/skip-link'
+import { db, events, fields, eventFields } from '@/db'
+import { eq } from 'drizzle-orm'
 
 async function getEvent(slug: string): Promise<EventResponse | null> {
-  const url = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/events?search=${encodeURIComponent(slug)}`
+  try {
+    // Query event by slug
+    const eventData = await db
+      .select()
+      .from(events)
+      .where(eq(events.slug, slug))
+      .limit(1)
 
-  const res = await fetch(url, { cache: 'no-store' })
+    if (eventData.length === 0) return null
 
-  if (!res.ok) return null
+    const event = eventData[0]
 
-  const data = await res.json()
-  const event = data.events.find((e: EventResponse) => e.slug === slug)
+    // Get related fields
+    const eventFieldsData = await db
+      .select({
+        id: fields.id,
+        name: fields.name,
+        slug: fields.slug,
+        category: fields.category,
+      })
+      .from(eventFields)
+      .innerJoin(fields, eq(eventFields.fieldId, fields.id))
+      .where(eq(eventFields.eventId, event.id))
 
-  return event || null
+    // Calculate multi-day info
+    const startDate = new Date(event.startDate)
+    const endDate = new Date(event.endDate)
+    const durationDays =
+      Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1
+    const isMultiDay = durationDays > 1
+
+    return {
+      ...event,
+      startDate: event.startDate,
+      endDate: event.endDate,
+      postponedFromDate: event.postponedFromDate || null,
+      registrationOpenDate: event.registrationOpenDate || null,
+      registrationCloseDate: event.registrationCloseDate || null,
+      startTime: event.startTime || null,
+      endTime: event.endTime || null,
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: event.updatedAt.toISOString(),
+      publishedAt: event.publishedAt?.toISOString() || null,
+      archivedAt: event.archivedAt?.toISOString() || null,
+      cancelledAt: event.cancelledAt?.toISOString() || null,
+      externalUrl: event.externalUrl || null,
+      fields: eventFieldsData,
+      isMultiDay,
+      durationDays,
+    } as EventResponse
+  } catch (error) {
+    console.error('Error fetching event:', error)
+    return null
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {

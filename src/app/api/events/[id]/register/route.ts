@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db, events, registrations } from '@/db'
 import { eq, and, count } from 'drizzle-orm'
 import { registrationSchema } from '@/lib/validations/registration'
-import { sendRegistrationConfirmation } from '@/lib/email/send'
 
 export async function POST(
   request: NextRequest,
@@ -136,25 +135,8 @@ export async function POST(
       }
     }
 
-    // Send confirmation email (async, non-blocking)
-    sendRegistrationConfirmation({
-      to: registration.email,
-      name: registration.name,
-      eventName: event.name,
-      eventSlug: event.slug,
-      startDate: event.startDate,
-      endDate: event.endDate,
-      venueName: event.venueName,
-      venueAddress: event.venueAddress,
-      region: event.region,
-      registrationType: registration.registrationType,
-      status: registration.status as 'confirmed' | 'waitlisted',
-      waitlistPosition,
-      boothCount: registration.boothCount,
-    }).catch((error) => {
-      // Log error but don't fail the registration if email fails
-      console.error('Failed to send confirmation email:', error)
-    })
+    // Email sending removed - registrations work without email notifications
+    // If you need to re-enable emails in the future, add email sending logic here
 
     return NextResponse.json({
       id: registration.id,

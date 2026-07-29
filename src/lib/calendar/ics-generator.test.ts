@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { generateEventICS, generateMultipleEventsICS } from './ics-generator'
+import { generateEventICS } from './ics-generator'
 import type { EventResponse } from '@/lib/validations/event'
 
 const mockEvent: EventResponse = {
@@ -61,19 +61,6 @@ describe('ICS Generator', () => {
     // Check for capacity info
     expect(ics).toContain('150/500')
     expect(ics).toContain('20/50')
-  })
-
-  it('generates valid ICS for multiple events', () => {
-    const events = [mockEvent, { ...mockEvent, id: '223e4567-e89b-12d3-a456-426614174001', name: 'UM Career Fair 2025' }]
-    const ics = generateMultipleEventsICS(events, 'Test Calendar')
-
-    // Should contain both events
-    expect(ics).toContain('UiTM Career Fair 2025')
-    expect(ics).toContain('UM Career Fair 2025')
-
-    // Should have proper structure
-    expect(ics).toContain('BEGIN:VCALENDAR')
-    expect(ics).toContain('END:VCALENDAR')
   })
 
   it('handles cancelled events correctly', () => {
