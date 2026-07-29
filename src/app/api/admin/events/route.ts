@@ -58,21 +58,31 @@ export async function POST(request: NextRequest) {
     const regOpenDate = new Date(body.registrationOpenDate).toISOString().split('T')[0]
     const regCloseDate = new Date(body.registrationCloseDate).toISOString().split('T')[0]
 
-    // Check for existing events with the same start date and time
-    const existingEvents = await db
-      .select()
-      .from(events)
-      .where(
-        and(
-          eq(events.startDate, startDateTime.date),
-          eq(events.startTime, startDateTime.time)
-        )
-      )
+    // Create full datetime objects for overlap comparison
+    const newStartDateTime = new Date(`${startDateTime.date}T${startDateTime.time}`)
+    const newEndDateTime = new Date(`${endDateTime.date}T${endDateTime.time}`)
 
-    if (existingEvents.length > 0) {
+    // Check for overlapping events
+    // Two events overlap if: newStart < existingEnd AND newEnd > existingStart
+    const allEvents = await db.select().from(events)
+
+    const overlappingEvents = allEvents.filter((event) => {
+      if (!event.startDate || !event.endDate || !event.startTime || !event.endTime) {
+        return false
+      }
+
+      const existingStart = new Date(`${event.startDate}T${event.startTime}`)
+      const existingEnd = new Date(`${event.endDate}T${event.endTime}`)
+
+      // Check if the time ranges overlap
+      return newStartDateTime < existingEnd && newEndDateTime > existingStart
+    })
+
+    if (overlappingEvents.length > 0) {
+      const conflictEvent = overlappingEvents[0]
       return NextResponse.json(
         {
-          message: `An event already exists at this date and time: ${existingEvents[0].name}`,
+          message: `This event overlaps with an existing event: ${conflictEvent.name} (${conflictEvent.startDate} ${conflictEvent.startTime} - ${conflictEvent.endDate} ${conflictEvent.endTime})`,
         },
         { status: 409 }
       )
