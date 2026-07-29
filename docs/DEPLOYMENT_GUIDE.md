@@ -1,7 +1,7 @@
 # Deployment Guide - TalentBank Event Calendar
 
-**Last Updated:** 2026-07-28
-**Version:** 1.0 (Sprint 6 Complete)
+**Last Updated:** 2026-07-29
+**Version:** 1.1
 
 This guide covers deploying the TalentBank Event Calendar to production on Vercel with Neon Postgres.
 
@@ -14,7 +14,6 @@ Before deploying, ensure you have:
 - ✅ Vercel account (free tier is sufficient)
 - ✅ Neon Postgres database (free tier available)
 - ✅ Google Cloud Console account (for OAuth)
-- ✅ Resend account (for emails)
 - ✅ GitHub repository with your code
 
 ---
@@ -84,41 +83,11 @@ npm run db:seed
 5. Click **Create**
 6. Save **Client ID** and **Client Secret**
 
-See `docs/GOOGLE_OAUTH_SETUP.md` for detailed instructions.
-
 ---
 
-### Phase 3: Resend Email Setup
+### Phase 3: Vercel Deployment
 
-#### 3.1 Create Resend Account
-
-1. Go to [Resend.com](https://resend.com)
-2. Sign up for free account (100 emails/day)
-3. Verify your email
-
-#### 3.2 Add and Verify Domain
-
-1. Go to **Domains** → **Add Domain**
-2. Enter your domain: `talentcorp.com.my`
-3. Add DNS records to your domain:
-   - **MX record**: For bounce handling
-   - **TXT records**: For SPF and DKIM
-4. Wait for verification (usually 5-10 minutes)
-
-#### 3.3 Create API Key
-
-1. Go to **API Keys** → **Create API Key**
-2. Name: `TalentBank Event Calendar Production`
-3. Permission: **Full Access**
-4. Copy the API key (starts with `re_`)
-
-See `docs/EMAIL_SETUP.md` for detailed instructions.
-
----
-
-### Phase 4: Vercel Deployment
-
-#### 4.1 Connect GitHub Repository
+#### 3.1 Connect GitHub Repository
 
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
 2. Click **"Add New..."** → **"Project"**
@@ -129,7 +98,7 @@ See `docs/EMAIL_SETUP.md` for detailed instructions.
    - Build Command: `npm run build`
    - Output Directory: `.next`
 
-#### 4.2 Configure Environment Variables
+#### 3.2 Configure Environment Variables
 
 In Vercel project settings, add these environment variables:
 
@@ -148,9 +117,6 @@ AUTH_SECRET=your-generated-secret-here
 # Google OAuth (from Google Cloud Console)
 GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=your-client-secret
-
-# Email (from Resend)
-RESEND_API_KEY=re_your_api_key_here
 ```
 
 **Generate NEXTAUTH_SECRET and AUTH_SECRET:**
@@ -161,7 +127,7 @@ openssl rand -base64 32  # Use for AUTH_SECRET
 ```
 **Note:** Both secrets are required for Auth.js v5. Use different values for each.
 
-#### 4.3 Deploy
+#### 3.3 Deploy
 
 1. Click **"Deploy"**
 2. Wait for build to complete (2-3 minutes)
@@ -169,9 +135,9 @@ openssl rand -base64 32  # Use for AUTH_SECRET
 
 ---
 
-### Phase 5: Post-Deployment Configuration
+### Phase 4: Post-Deployment Configuration
 
-#### 5.1 Create First Admin User
+#### 4.1 Create First Admin User
 
 1. Visit `https://your-domain.com/admin`
 2. Sign in with your Google Workspace account
@@ -191,27 +157,12 @@ npm run db:studio
 # Navigate to users table and update your role
 ```
 
-#### 5.2 Configure Email Sender
-
-Update the FROM email in `src/lib/email/client.ts`:
-
-```typescript
-export const FROM_EMAIL = 'TalentCorp Events <events@talentcorp.com.my>'
-```
-
-Redeploy after changing:
-```bash
-git add .
-git commit -m "Update email sender address"
-git push
-```
-
-#### 5.3 Test Core Features
+#### 4.2 Test Core Features
 
 - [ ] User can view public calendar
 - [ ] User can view event details
 - [ ] User can register for an event
-- [ ] Registration email is received
+- [ ] Registration confirmation message appears
 - [ ] Admin can sign in
 - [ ] Admin can create an event
 - [ ] Admin can view registrations
@@ -295,14 +246,6 @@ Neon automatically backs up your database:
 pg_dump $DATABASE_URL > backup-$(date +%Y%m%d).sql
 ```
 
-### Email Monitoring
-
-1. Check Resend dashboard for:
-   - Delivery rates
-   - Bounce rates
-   - Failed sends
-2. Monitor logs in Vercel for email errors
-
 ### Update Dependencies Regularly
 
 ```bash
@@ -340,11 +283,6 @@ npm install package-name@latest
 **Error: "OAuth error"**
 - Verify Google OAuth redirect URIs match production URL
 - Check GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET
-
-**Emails not sending**
-- Verify RESEND_API_KEY is set
-- Check Resend domain is verified
-- Check FROM_EMAIL domain matches verified domain
 
 ### Performance Issues
 
@@ -425,7 +363,6 @@ Neon provides built-in connection pooling. For high traffic:
 
 - **Vercel**: 100 GB bandwidth/month, 100 GB-hours serverless execution
 - **Neon**: 3 GB storage, 100 hours compute time/month
-- **Resend**: 100 emails/day, 3,000/month
 
 ### When to Upgrade
 
@@ -438,11 +375,6 @@ Neon provides built-in connection pooling. For high traffic:
 - Database exceeds 3 GB
 - Need better performance
 - Want 7-day point-in-time recovery
-
-**Upgrade Resend Pro ($20/mo) when:**
-- Sending 100+ emails/day
-- Need dedicated IP
-- Want higher deliverability
 
 ---
 
@@ -457,7 +389,6 @@ Neon provides built-in connection pooling. For high traffic:
 - [Vercel Docs](https://vercel.com/docs)
 - [Neon Docs](https://neon.tech/docs)
 - [Auth.js Docs](https://authjs.dev)
-- [Resend Docs](https://resend.com/docs)
 
 **Getting Help:**
 - Technical Issues: Create GitHub issue

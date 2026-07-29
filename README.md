@@ -7,7 +7,6 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
 [![WCAG 2.2 AA](https://img.shields.io/badge/Accessibility-WCAG%202.2%20AA-green)](https://www.w3.org/WAI/WCAG22/quickref/)
-[![Security: B+](https://img.shields.io/badge/Security-B%2B-brightgreen)](./docs/SECURITY_AUDIT.md)
 
 ---
 
@@ -29,7 +28,6 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 - 👥 **Role-Based Access** - Admin, Editor, and Viewer roles
 - ⚠️ **Clash Detection** - Automatic conflict detection (hard & soft clashes)
 - 📊 **Capacity Management** - Track registrations and waitlists
-- 📧 **Email Notifications** - Automated confirmation and reminder emails
 - 🗂️ **Event Management** - Create, edit, cancel, and postpone events
 - 📅 **Registration Period Control** - Set registration open/close dates
 - 🔗 **External Registration Links** - Support for third-party registration systems
@@ -53,7 +51,6 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 - Node.js 20+
 - Neon Postgres account (free tier)
 - Google Cloud Console account (for OAuth)
-- Resend account (for emails, optional)
 
 ### 1. Clone and Install
 
@@ -84,9 +81,6 @@ NEXTAUTH_SECRET=<generate-with-openssl-rand-base64-32>
 AUTH_SECRET=<generate-with-openssl-rand-base64-32>
 GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=your-client-secret
-
-# Email (Optional - works without it in dev mode)
-RESEND_API_KEY=re_your_api_key
 ```
 
 See [Environment Setup Guide](#environment-setup) for detailed instructions.
@@ -120,16 +114,12 @@ Visit:
 
 - 📖 **[Admin Runbook](./docs/ADMIN_RUNBOOK.md)** - Complete guide for event coordinators
 - 🚀 **[Deployment Guide](./docs/DEPLOYMENT_GUIDE.md)** - Production deployment instructions
-- 📧 **[Email Setup](./docs/EMAIL_SETUP.md)** - Configure Resend for notifications
-- 🔐 **[Google OAuth Setup](./docs/GOOGLE_OAUTH_SETUP.md)** - Configure Google SSO
 
 ### For Developers
 
 - 📋 **[Project Brief](./docs/PROJECT_BRIEF.md)** - Full project specification
 - 🗄️ **[Schema Design](./docs/SCHEMA_DESIGN.md)** - Database architecture
-- ♿ **[Accessibility Audit](./docs/ACCESSIBILITY_AUDIT.md)** - WCAG 2.2 compliance report
-- 🔒 **[Security Audit](./docs/SECURITY_AUDIT.md)** - OWASP Top 10 analysis
-- ✅ **[Sprint 6 Summary](./docs/SPRINT_6_SUMMARY.md)** - Latest sprint deliverables
+- 📝 **[Changelog](./CHANGELOG.md)** - Version history and updates
 
 ---
 
@@ -144,7 +134,6 @@ Visit:
 
 ### Features
 
-- **Email:** Resend + React Email
 - **Calendar:** ics (RFC 5545 compliant)
 - **Validation:** Zod schemas
 - **Date Handling:** date-fns
@@ -176,12 +165,10 @@ talentbank-event-calendar/
 │   │   ├── schema/             # Database schema definitions
 │   │   ├── seeds/              # Seed data and scripts
 │   │   └── index.ts            # Database client
-│   ├── lib/
-│   │   ├── validations/        # Zod schemas
-│   │   ├── calendar/           # Calendar generation
-│   │   ├── email/              # Email utilities
-│   │   └── auth.ts             # Auth.js configuration
-│   └── emails/                 # Email templates
+│   └── lib/
+│       ├── validations/        # Zod schemas
+│       ├── calendar/           # Calendar generation
+│       └── auth.ts             # Auth.js configuration
 ├── docs/                       # Comprehensive documentation
 ├── e2e/                        # Playwright tests
 └── public/                     # Static assets
@@ -240,13 +227,10 @@ All 7 sprints completed (114 story points):
 
 - ✅ .ics calendar downloads
 - ✅ Webcal subscription feeds
-- ✅ Email notification system (Resend)
 - ✅ Past events archive
 - ✅ WCAG 2.2 AA accessibility compliance
 - ✅ Security hardening (OWASP Top 10)
 - ✅ Comprehensive admin documentation
-
-See [`docs/SPRINT_6_SUMMARY.md`](./docs/SPRINT_6_SUMMARY.md) for complete details.
 
 ---
 
@@ -264,21 +248,14 @@ See [`docs/SPRINT_6_SUMMARY.md`](./docs/SPRINT_6_SUMMARY.md) for complete detail
    - Enable Google+ API
    - Configure OAuth consent screen
    - Create OAuth 2.0 credentials
-   - See [`docs/GOOGLE_OAUTH_SETUP.md`](./docs/GOOGLE_OAUTH_SETUP.md)
-
-3. **Resend** (Email - Optional)
-   - Sign up: [resend.com](https://resend.com)
-   - Free tier: 100 emails/day
-   - Add and verify your domain
-   - Create API key
-   - See [`docs/EMAIL_SETUP.md`](./docs/EMAIL_SETUP.md)
+   - Redirect URI: `https://your-domain.com/api/auth/callback/google`
 
 ### Environment Variables
 
 All variables are documented in `.env.example`. Copy to `.env.local` and fill in:
 
 ```bash
-# Minimum required for development
+# Required for development
 DATABASE_URL=postgresql://...
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXTAUTH_URL=http://localhost:3000
@@ -286,9 +263,6 @@ NEXTAUTH_SECRET=<32-char-random-string>
 AUTH_SECRET=<32-char-random-string>
 GOOGLE_CLIENT_ID=...
 GOOGLE_CLIENT_SECRET=...
-
-# Optional (email notifications)
-RESEND_API_KEY=re_...
 ```
 
 ---
@@ -327,8 +301,6 @@ The application is fully configured for Vercel with:
 - ✅ Input Validation (Zod schemas)
 - ✅ HTTPS Enforced (Vercel automatic)
 
-See full security audit: [`docs/SECURITY_AUDIT.md`](./docs/SECURITY_AUDIT.md)
-
 ---
 
 ## ♿ Accessibility
@@ -341,8 +313,6 @@ See full security audit: [`docs/SECURITY_AUDIT.md`](./docs/SECURITY_AUDIT.md)
 - ✅ Color Contrast (7.2:1+ ratios)
 - ✅ Skip Links
 - ✅ ARIA Attributes
-
-See full accessibility audit: [`docs/ACCESSIBILITY_AUDIT.md`](./docs/ACCESSIBILITY_AUDIT.md)
 
 ---
 
@@ -372,14 +342,22 @@ Built with modern web technologies and best practices:
 
 ---
 
-**Version:** 1.1.0 (Post-Sprint 6 Updates)
+**Version:** 1.2.0
 **Last Updated:** 2026-07-29
 **Status:** Production Ready ✅
 
-### Recent Updates (v1.1.0)
+### Recent Updates (v1.2.0)
 
-- ✅ Added registration period control (open/close dates)
-- ✅ Added external registration link support
-- ✅ Added credentials-based authentication
-- ✅ Fixed TypeScript build errors for production deployment
-- ✅ Enhanced form validation and user experience
+- ✅ Streamlined project by removing email notification system
+- ✅ Simplified dependencies (removed Resend integration)
+- ✅ Fixed API routing issues
+- ✅ Updated Zod schemas and enum validations
+- ✅ Cleaned up documentation to reflect current state
+
+### Previous Updates (v1.1.0)
+
+- Added registration period control (open/close dates)
+- Added external registration link support
+- Added credentials-based authentication
+- Fixed TypeScript build errors for production deployment
+- Enhanced form validation and user experience

@@ -27,6 +27,8 @@ export default function NewEventPage() {
       candidateCapacity: parseInt(formData.get('candidateCapacity') as string),
       employerCapacity: parseInt(formData.get('employerCapacity') as string),
       status: formData.get('status'),
+      registrationOpenDate: formData.get('registrationOpenDate'),
+      registrationCloseDate: formData.get('registrationCloseDate'),
     }
 
     try {

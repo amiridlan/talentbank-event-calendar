@@ -5,6 +5,51 @@ All notable changes to the TalentBank Event Calendar project will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-07-29
+
+### Removed
+- **Email Notification System**: Removed Resend integration and all email-related functionality
+  - Removed `src/lib/email/` directory and all email utility code
+  - Removed `src/emails/` directory and all email templates
+  - Removed email sending from registration flow
+  - Removed email-related environment variables (`RESEND_API_KEY`)
+  - System now works without email dependencies
+  - Registration confirmations still work, displayed as in-app messages
+
+### Changed
+- **Simplified Dependencies**: Removed Resend, React Email, and related email packages from `package.json`
+- **API Routing**: Fixed routing issues in calendar and event APIs
+- **Zod Validation**: Updated and refined validation schemas across the application
+- **Enum Definitions**: Fixed and standardized enum values throughout the codebase
+
+### Documentation
+- Updated all documentation to reflect removal of email features
+- Removed obsolete documentation files:
+  - `docs/EMAIL_SETUP.md`
+  - `docs/GOOGLE_OAUTH_SETUP.md`
+  - `docs/ACCESSIBILITY_AUDIT.md`
+  - `docs/SECURITY_AUDIT.md`
+  - `docs/SPRINT_6_SUMMARY.md`
+  - `docs/VERCEL_SETUP.md`
+- Updated `README.md` to remove email feature references and dead documentation links
+- Updated `ADMIN_RUNBOOK.md` to remove email notification sections
+- Updated `DEPLOYMENT_GUIDE.md` to remove Resend setup steps
+- Updated `PROJECT_STATUS.md` to reflect current state
+- Updated `.env.example` to remove email-related variables
+
+### Migration Notes
+**Upgrading from v1.1.0 to v1.2.0:**
+
+No database changes required. The application will work the same way for end users, except:
+- Registration confirmations now only show in-app messages (no email sent)
+- Admins should manually communicate with registrants via their organization's existing channels
+
+To clean up your environment (optional):
+1. Remove `RESEND_API_KEY` from your `.env.local` file
+2. Run `npm install` to update dependencies
+
+---
+
 ## [1.1.0] - 2026-07-29
 
 ### Added
@@ -70,7 +115,6 @@ To upgrade from v1.0.0 to v1.1.0:
 - ✅ Admin CMS with role-based access control
 - ✅ Google OAuth authentication
 - ✅ .ics calendar downloads and webcal subscriptions
-- ✅ Email notifications via Resend
 - ✅ WCAG 2.2 Level AA accessibility compliance
 - ✅ OWASP Top 10 security hardening
 - ✅ Comprehensive documentation (1,200+ lines)
@@ -86,5 +130,6 @@ To upgrade from v1.0.0 to v1.1.0:
 
 ---
 
+[1.2.0]: https://github.com/talentcorp/event-calendar/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/talentcorp/event-calendar/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/talentcorp/event-calendar/releases/tag/v1.0.0

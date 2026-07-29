@@ -15,9 +15,8 @@
 5. [Using Clash Detection](#using-clash-detection)
 6. [Managing Capacity](#managing-capacity)
 7. [User Management](#user-management)
-8. [Email Notifications](#email-notifications)
-9. [Troubleshooting](#troubleshooting)
-10. [Best Practices](#best-practices)
+8. [Troubleshooting](#troubleshooting)
+9. [Best Practices](#best-practices)
 
 ---
 
@@ -166,10 +165,10 @@ When an event reaches capacity, new registrations automatically go to the waitli
 2. Go to **"Waitlist"** tab
 3. Select registrants to promote
 4. Click **"Promote to Confirmed"**
-5. Confirmation emails will be sent automatically
+5. Status will be updated to confirmed
 
 #### Checking Waitlist Position
-Waitlist positions are assigned automatically (first-come, first-served). Users can see their position in the confirmation email.
+Waitlist positions are assigned automatically (first-come, first-served) and displayed in the registration confirmation message.
 
 ---
 
@@ -183,17 +182,12 @@ Waitlist positions are assigned automatically (first-come, first-served). Users 
 3. Enter **"Cancellation Reason"** (required)
    - Example: "Due to unforeseen circumstances, this event has been postponed to a later date"
 
-#### Step 2: Notify Registrants
-- Click **"Send Cancellation Emails"**
-- Review the email preview
-- Click **"Confirm Send"**
-- All registrants will receive cancellation notification emails
-
-> 📧 **Email Content:** Emails include the cancellation reason and links to browse other events
-
-#### Step 3: Save Changes
+#### Step 2: Save Changes
 - Click **"Save Changes"**
 - Event will display as "Cancelled" with strikethrough on public calendar
+- The cancellation reason will be visible to the public
+
+> 📝 **Note:** You may need to manually notify registrants about the cancellation via your organization's standard communication channels
 
 ### Postponing an Event
 
@@ -203,17 +197,18 @@ Waitlist positions are assigned automatically (first-come, first-served). Users 
    - Change status to **"Postponed"**
    - Update **Start Date** and **End Date** to new dates
    - Fill in **"Postponed From Date"** (the original date)
+   - Existing registrations remain valid
 
 2. **Notify registrants:**
-   - Click **"Send Update Emails"**
-   - Email will inform registrants of the new date
-   - Existing registrations remain valid
+   - You should manually notify registrants about the date change via your organization's communication channels
+   - Include the new date and any other relevant information
 
 #### If New Date is Unknown
 
 1. **Cancel the original event** (follow cancellation steps)
 2. **Create a new event** when the new date is confirmed
 3. **Previous registrants must re-register** for the new event
+4. **Manually notify** previous registrants when the new event is published
 
 ---
 
@@ -336,56 +331,6 @@ If you accidentally accepted more registrations than capacity:
 
 ---
 
-## Email Notifications
-
-The system sends automated emails for:
-
-### Registration Confirmation
-**Sent when:** User completes registration
-**Recipients:** Registrant
-**Content:**
-- Confirmation message
-- Event details (date, time, venue)
-- .ics calendar file attachment (coming soon)
-- PDPA notice
-
-### Waitlist Confirmation
-**Sent when:** Event is full, user added to waitlist
-**Recipients:** Registrant
-**Content:**
-- Waitlist position
-- Promise to notify if spot opens
-- Links to browse other events
-
-### Event Cancellation
-**Sent when:** Admin cancels an event and clicks "Send Cancellation Emails"
-**Recipients:** All confirmed and waitlisted registrants
-**Content:**
-- Cancellation notice
-- Reason for cancellation
-- Links to browse alternative events
-
-### Event Reminder
-**Sent when:** 7 days before event (automated)
-**Recipients:** All confirmed registrants
-**Content:**
-- Reminder that event is in 7 days
-- Event details
-- Tips (bring resume for candidates, booth materials for employers)
-
-### Monitoring Email Delivery
-
-1. Go to **Settings** → **Email Logs**
-2. See all sent emails with:
-   - Recipient
-   - Subject
-   - Timestamp
-   - Delivery status (sent/failed)
-
-> 📧 **Resend Setup Required:** Ask your IT admin to configure Resend API key
-
----
-
 ## Troubleshooting
 
 ### Problem: Can't Sign In
@@ -421,22 +366,7 @@ The system sends automated emails for:
 1. Check registrations under **Registrations** tab
 2. Filter by event name
 3. Check both "Confirmed" and "Waitlisted" tabs
-4. Verify email didn't go to spam
-
----
-
-### Problem: Email Notifications Not Sending
-
-**Symptoms:** Registrants not receiving confirmation emails
-**Check:**
-1. Is Resend API key configured? (Settings → Email)
-2. Check Email Logs for failed deliveries
-3. Ask registrants to check spam folder
-
-**Solutions:**
-1. Contact IT to verify Resend setup
-2. Manually resend from Email Logs
-3. Copy and email event details manually as backup
+4. Hard refresh browser (Ctrl+F5 or Cmd+Shift+R)
 
 ---
 
@@ -506,15 +436,15 @@ The system sends automated emails for:
 
 ### Communication
 ✅ **Do:**
-- Send updates well in advance (at least 1 week notice for changes)
+- Notify registrants well in advance of any changes (at least 1 week notice)
 - Use clear, professional language in cancellation reasons
-- Test emails before sending to large groups
 - Keep event descriptions concise and informative
+- Update event details promptly when information changes
 
 ❌ **Don't:**
 - Make last-minute cancellations without good reason
 - Use vague cancellation reasons ("unforeseen circumstances" - be specific)
-- Send too many reminder emails (system sends one at 7 days, that's enough)
+- Forget to manually notify registrants about important updates via your organization's communication channels
 
 ### System Maintenance
 ✅ **Do:**
@@ -559,9 +489,7 @@ Registered → Waitlisted (if full)
 | Create Event | Admin → Events → Create New Event |
 | View Registrations | Admin → Events → [Event] → View Registrations |
 | Export Data | Admin → Events → [Event] → Registrations → Export CSV |
-| Send Emails | Admin → Events → [Event] → Edit → Send Emails |
 | Manage Users | Admin → Users |
-| View Email Logs | Admin → Settings → Email Logs |
 | Check Clashes | Automatic when creating/editing events |
 
 ---
@@ -590,8 +518,8 @@ Submit via: [GitHub Issues](link-to-repo)
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** 2026-07-28
+**Document Version:** 1.1
+**Last Updated:** 2026-07-29
 **Next Review:** When major features added
 
 For questions or clarifications about this runbook, contact the system administrator.
