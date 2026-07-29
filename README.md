@@ -14,6 +14,7 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 ## 🎯 Features
 
 ### Public Features
+
 - 📅 **Full-Year Calendar** - Browse upcoming career fairs across Malaysia
 - 🔍 **Advanced Filtering** - Filter by state, event type, and industry
 - 📱 **Responsive Design** - Mobile-friendly interface
@@ -23,6 +24,7 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 - 📚 **Past Events Archive** - Browse historical events with statistics
 
 ### Admin Features
+
 - 🔐 **Dual Authentication** - Google SSO + Credentials-based login
 - 👥 **Role-Based Access** - Admin, Editor, and Viewer roles
 - ⚠️ **Clash Detection** - Automatic conflict detection (hard & soft clashes)
@@ -34,6 +36,7 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 - 📈 **Registration Dashboard** - View and export registration data
 
 ### Technical Features
+
 - 🔒 **Security Hardened** - OWASP Top 10 compliant, security headers configured
 - ♿ **Accessible** - WCAG 2.2 Level AA substantially compliant
 - 🇲🇾 **PDPA Compliant** - Full compliance with Malaysian data protection laws
@@ -46,6 +49,7 @@ A comprehensive event calendar system for career fairs across Malaysia, featurin
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 20+
 - Neon Postgres account (free tier)
 - Google Cloud Console account (for OAuth)
@@ -104,6 +108,7 @@ npm run dev
 ```
 
 Visit:
+
 - 🌐 Public Calendar: [http://localhost:3000/calendar](http://localhost:3000/calendar)
 - 🔐 Admin Panel: [http://localhost:3000/admin](http://localhost:3000/admin)
 
@@ -112,12 +117,14 @@ Visit:
 ## 📚 Documentation
 
 ### For Administrators
+
 - 📖 **[Admin Runbook](./docs/ADMIN_RUNBOOK.md)** - Complete guide for event coordinators
 - 🚀 **[Deployment Guide](./docs/DEPLOYMENT_GUIDE.md)** - Production deployment instructions
 - 📧 **[Email Setup](./docs/EMAIL_SETUP.md)** - Configure Resend for notifications
 - 🔐 **[Google OAuth Setup](./docs/GOOGLE_OAUTH_SETUP.md)** - Configure Google SSO
 
 ### For Developers
+
 - 📋 **[Project Brief](./docs/PROJECT_BRIEF.md)** - Full project specification
 - 🗄️ **[Schema Design](./docs/SCHEMA_DESIGN.md)** - Database architecture
 - ♿ **[Accessibility Audit](./docs/ACCESSIBILITY_AUDIT.md)** - WCAG 2.2 compliance report
@@ -129,18 +136,21 @@ Visit:
 ## 🛠️ Tech Stack
 
 ### Core
+
 - **Framework:** Next.js 15 (App Router) + TypeScript 5.3
 - **Database:** PostgreSQL (Neon) + Drizzle ORM
 - **Authentication:** Auth.js v5 (NextAuth) with Google OAuth
 - **Styling:** Tailwind CSS v4
 
 ### Features
+
 - **Email:** Resend + React Email
 - **Calendar:** ics (RFC 5545 compliant)
 - **Validation:** Zod schemas
 - **Date Handling:** date-fns
 
 ### Development
+
 - **Testing:** Vitest (unit) + Playwright (e2e)
 - **Linting:** ESLint + Prettier
 - **Type Safety:** TypeScript strict mode
@@ -216,17 +226,18 @@ npm run db:seed          # Seed database with events
 
 All 7 sprints completed (114 story points):
 
-| Sprint | Features | Status |
-|--------|----------|--------|
-| **Sprint 0** | Groundwork & Infrastructure | ✅ Complete |
-| **Sprint 1** | Data Model & Seeding | ✅ Complete |
-| **Sprint 2** | Public Calendar | ✅ Complete |
-| **Sprint 3** | Admin CMS & Auth | ✅ Complete |
-| **Sprint 4** | Event Lifecycle Management | ✅ Complete |
-| **Sprint 5** | Registration & Capacity | ✅ Complete |
+| Sprint       | Features                         | Status      |
+| ------------ | -------------------------------- | ----------- |
+| **Sprint 0** | Groundwork & Infrastructure      | ✅ Complete |
+| **Sprint 1** | Data Model & Seeding             | ✅ Complete |
+| **Sprint 2** | Public Calendar                  | ✅ Complete |
+| **Sprint 3** | Admin CMS & Auth                 | ✅ Complete |
+| **Sprint 4** | Event Lifecycle Management       | ✅ Complete |
+| **Sprint 5** | Registration & Capacity          | ✅ Complete |
 | **Sprint 6** | Calendar Integration & Hardening | ✅ Complete |
 
 **Latest Sprint (Sprint 6) Deliverables:**
+
 - ✅ .ics calendar downloads
 - ✅ Webcal subscription feeds
 - ✅ Email notification system (Resend)
@@ -296,6 +307,7 @@ Follow the complete deployment guide: [`docs/DEPLOYMENT_GUIDE.md`](./docs/DEPLOY
 4. Deploy
 
 The application is fully configured for Vercel with:
+
 - ✅ Automatic deployments on push
 - ✅ Preview environments for PRs
 - ✅ Edge-ready API routes
@@ -351,6 +363,7 @@ Proprietary - TalentCorp Malaysia
 ## 🎉 Acknowledgments
 
 Built with modern web technologies and best practices:
+
 - Next.js team for the excellent framework
 - Vercel for seamless deployment
 - Neon for serverless Postgres
@@ -364,6 +377,7 @@ Built with modern web technologies and best practices:
 **Status:** Production Ready ✅
 
 ### Recent Updates (v1.1.0)
+
 - ✅ Added registration period control (open/close dates)
 - ✅ Added external registration link support
 - ✅ Added credentials-based authentication
